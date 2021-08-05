@@ -31,7 +31,7 @@
 			},
 			color: {
 				type: String,
-				default: '#333333'
+				default: '#7E7C8A'
 			},
 			size: {
 				type: [Number, String],

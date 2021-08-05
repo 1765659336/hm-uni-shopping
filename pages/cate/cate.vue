@@ -1,9 +1,11 @@
 <template>
 	<view>
+		<!-- 自定义搜索栏,可以传递很多属性，用来个性化设计，具体查考components/my-search/my-search.Vue组件查看 -->
+		<my-search :boxHeight="searchHeight" @getBoxHeight="getBoxHeight" @myclick="goToSearch"></my-search>
 		<view class="scroll-view-container">
 			<!-- 左侧一级导航区域 -->
 			<!-- 加了:之后style后面的内容就是js表达式了需要带{} -->
-			<scroll-view scroll-y :style="{height: vh + 'px;'}" class="left-scroll-view">
+			<scroll-view scroll-y :style="{'height': vh - searchHeight + 'px;'}" class="left-scroll-view">
 				<!-- block不占有页面结构,不需要添加类名样式时，推荐使用block -->
 				<!-- uniapp中循环推荐使用的block在页面中是不显示的，当不需要添加类名的时候可以推荐使用 -->
 				<block v-for="(item,index) in cateList" :key="index">
@@ -12,7 +14,7 @@
 				</block>
 			</scroll-view>
 			<!-- 右侧二级导航区域 -->
-			<scroll-view scroll-y :style="{height: vh + 'px;'}" class="right-scroll-view" :scroll-top="scrollTop">
+			<scroll-view scroll-y :style="{'height': vh - searchHeight + 'px;'}" class="right-scroll-view" :scroll-top="scrollTop">
 				<view class="right-scroll-view-item" v-for="(item2,index2) in cateListlv2" :key="index2">
 					<view class="lv2-item">
 						{{item2.cat_name}}
@@ -47,7 +49,9 @@
 				// 记录选择的一级分类
 				active: 0,
 				// 二级导航栏滚动条开始的位置
-				scrollTop: 0
+				scrollTop: 0,
+				// 设置搜索框的高度
+				searchHeight: 50
 			};
 		},
 		onLoad() {
@@ -86,6 +90,11 @@
 			goToGoodsList(item3) {
 				uni.navigateTo({
 					url: '/subpkg/goods_list/goods_list?cid=' + item3.cat_id
+				})
+			},
+			goToSearch() {
+				uni.navigateTo({
+					url:'/subpkg/search/search'
 				})
 			}
 		}
