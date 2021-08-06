@@ -5,7 +5,7 @@
 		</view>
 		<!-- 搜索结果 -->
 		<!-- 需要频繁切换，那么我们使用v-show会比v-if效率高，但是感觉用户也不用一直点搜索搜索吧 -->
-		<view class="result-List" v-if="keyValue.length !== 0 && searchResult.length !== 0">
+		<view class="result-List" v-if="resultListIf">
 			<view class="result-item" v-for="(item,index) in searchResult" @click="goToGoodsDetail(item)">
 				<view class="goods-name">{{item.goods_name}}</view>
 				<uni-icons type="arrowright" size="17"></uni-icons>
@@ -19,7 +19,7 @@
 				</view>
 			</view>
 			<view class="image_ct">
-				<image src="../../static/ct/mmexport1621952288900.jpg"></image>
+				<image src="/static/ct/mmexport1621952288900.jpg"></image>
 			</view>
 		</view>
 		<!-- 搜索历史 -->
@@ -51,6 +51,11 @@
 				// 用来决定输入了之后，因为接口的延迟还未查询到商品，会显示未查询到商品的bug,会一闪而过
 				sihuoLock: false
 			};
+		},
+		computed:{
+			resultListIf(){
+				return this.keyValue.length !== 0 && this.searchResult.length !== 0
+			}
 		},
 		onLoad() {
 			// 切换页面回来去本地读取搜索记录
