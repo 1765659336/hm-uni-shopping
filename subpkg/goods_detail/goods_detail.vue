@@ -33,12 +33,18 @@
 		<!-- buttonGroup 右侧按钮的配置项 -->
 		<!-- click 左侧按钮的点击事件处理函数 -->
 		<!-- buttonClick 右侧按钮的点击事件处理函数 -->
+		<!-- uni-goods-nav里面样式名为.uni-goods-nav -->
 		<uni-goods-nav :fill="true" :options="options" :buttonGroup="buttonGroup" @click="onClick"
 			@buttonClick="buttonClick" />
 	</view>
 </template>
 
 <script>
+	import {
+		mapState,
+		mapMutations,
+		mapGetters,
+	} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -51,7 +57,7 @@
 				}, {
 					icon: 'cart',
 					text: '购物车',
-					info: 2
+					info: 0
 				}],
 				// 右侧按钮组的配置对象
 				buttonGroup: [{
@@ -66,6 +72,23 @@
 					}
 				]
 			}
+		},
+		watch: {
+			total: {
+				handler(newVal) {
+					// 当函数体有return时，且只有一段代码时，可以省略{} 
+					const obj = this.options.find(option => option.text === '购物车')
+					if (obj) obj.info = newVal
+				},
+				// immediate 属性用来声明此侦听器，是否在页面初次加载完毕后立即调用
+				immediate: true
+			}
+		},
+		computed: {
+			// 调用 mapState 方法，把 m_cart 模块中的 cart 数组映射到当前页面中，作为计算属性来使用
+			// ...mapState('模块的名称', ['要映射的数据名称1', '要映射的数据名称2'])
+			...mapState('m_cart', ['cart']),
+			...mapGetters('m_cart', ['total']),
 		},
 		onLoad(options) {
 			// 获取商品 Id
@@ -106,6 +129,22 @@
 					uni.switchTab({
 						url: '/pages/cart/cart'
 					})
+				}
+			},
+			...mapMutations('m_cart', ['ADDTOCART']),
+			buttonClick(e) {
+				// console.log(e)
+				if (e.content.text === "加入购物车") {
+					// 初始化商品
+					const goods = {
+						goods_id: this.goods_info.goods_id, // 商品的Id
+						goods_name: this.goods_info.goods_name, // 商品的名称
+						goods_price: this.goods_info.goods_price, // 商品的价格
+						goods_count: 1, // 商品的数量
+						goods_small_logo: this.goods_info.goods_small_logo, // 商品的图片
+						goods_state: true // 商品的勾选状态
+					}
+					this.ADDTOCART(goods)
 				}
 			}
 		}
@@ -163,20 +202,20 @@
 			font-size: 12px;
 			color: gray;
 		}
+	}
 
-		// 底部导航栏
-		.goods-detail-container {
-			// 给页面外层的容器，添加 50px 的内padding，
-			// 防止页面内容被底部的商品导航组件遮盖
-			padding-bottom: 50px;
-		}
+	// 底部导航栏
+	.goods-detail-container {
+		// 给页面外层的容器，添加 50px 的内padding，
+		// 防止页面内容被底部的商品导航组件遮盖
+		padding-bottom: 50px;
+	}
 
-		.goods_nav {
-			// 为商品导航组件添加固定定位
-			position: fixed;
-			bottom: 0;
-			left: 0;
-			width: 100%;
-		}
+	.uni-goods-nav {
+		// 为商品导航组件添加固定定位
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: 100%;
 	}
 </style>

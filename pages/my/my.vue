@@ -5,10 +5,11 @@
 </template>
 
 <script>
+	import CartBadge from '../../mixins/CartBadge.js'
 	export default {
 		data() {
 			return {
-				
+				mixins: [CartBadge]
 			};
 		}
 	}

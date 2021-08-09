@@ -14,7 +14,8 @@
 				</block>
 			</scroll-view>
 			<!-- 右侧二级导航区域 -->
-			<scroll-view scroll-y :style="{'height': vh - searchHeight + 'px;'}" class="right-scroll-view" :scroll-top="scrollTop">
+			<scroll-view scroll-y :style="{'height': vh - searchHeight + 'px;'}" class="right-scroll-view"
+				:scroll-top="scrollTop">
 				<view class="right-scroll-view-item" v-for="(item2,index2) in cateListlv2" :key="index2">
 					<view class="lv2-item">
 						{{item2.cat_name}}
@@ -37,6 +38,7 @@
 </template>
 
 <script>
+	import CartBadge from '../../mixins/CartBadge.js'
 	export default {
 		data() {
 			return {
@@ -94,10 +96,11 @@
 			},
 			goToSearch() {
 				uni.navigateTo({
-					url:'/subpkg/search/search'
+					url: '/subpkg/search/search'
 				})
 			}
-		}
+		},
+		mixins: [CartBadge]
 	}
 </script>
 

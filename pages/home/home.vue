@@ -32,8 +32,8 @@
 					</navigator>
 					<!-- 右侧 4 个小图片的盒子 -->
 					<view class="right-img-box">
-						<navigator class="right-img-item" v-for="(item2, i2) in item.product_list" :key="i2" v-if="i2 !== 0"
-							:url="item2.url">
+						<navigator class="right-img-item" v-for="(item2, i2) in item.product_list" :key="i2"
+							v-if="i2 !== 0" :url="item2.url">
 							<image :src="item2.image_src" mode="widthFix" :style="{width: item2.image_width + 'rpx'}">
 							</image>
 						</navigator>
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+	import CartBadge from '../../mixins/CartBadge.js'
 	export default {
 		data() {
 			return {
@@ -114,12 +115,13 @@
 				this.floorList = res.message
 			},
 			// 跳转到搜索页面
-			goToSearch(){
+			goToSearch() {
 				uni.navigateTo({
 					url: '/subpkg/search/search'
 				})
 			}
-		}
+		},
+		mixins: [CartBadge]
 	}
 </script>
 
@@ -164,7 +166,7 @@
 		display: flex;
 		padding-left: 10rpx;
 	}
-	
+
 	// 首页搜索框吸顶效果
 	.box-search {
 		position: sticky;
