@@ -122,7 +122,7 @@
 					urls: this.goods_info.pics.map(x => x.pics_big)
 				})
 			},
-			// 点击加入购物车
+			// 点击购物车
 			onClick(e) {
 				if (e.content.text === '购物车') {
 					// 切换到购物车页面
@@ -132,6 +132,7 @@
 				}
 			},
 			...mapMutations('m_cart', ['ADDTOCART']),
+			// 点击加入购物车
 			buttonClick(e) {
 				// console.log(e)
 				if (e.content.text === "加入购物车") {
