@@ -1,5 +1,7 @@
 <template>
 	<view>
+		<!-- 收货地址展示区域 -->
+		<my-address></my-address>
 		<!-- 渲染购物车商品展示区 -->
 		<!-- 标题区 -->
 		<view class="cart-title">
