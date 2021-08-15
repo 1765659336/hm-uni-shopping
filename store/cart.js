@@ -52,9 +52,16 @@ export default {
 			}
 		},
 		// 删除商品
-		DELETEGOODS(state,goods){
+		DELETEGOODS(state, goods) {
 			// cart中商品id不等于要删除的那个商品id的过滤下来
 			state.cart = state.cart.filter(x => x.goods_id !== goods.goods_id)
+			// 持久化存储到本地
+			this.commit('m_cart/SAVETOSTORAGE')
+		},
+		// 改变购物车页面所有商品的选中状态
+		UPDATEALLGOODSSTATE(state, newState) {
+			console.log(newState)
+			state.cart.forEach(x => x.goods_state = newState)
 			// 持久化存储到本地
 			this.commit('m_cart/SAVETOSTORAGE')
 		}
@@ -67,6 +74,20 @@ export default {
 			// 循环cart的每一项
 			state.cart.forEach(goods => c += goods.goods_count)
 			return c
+		},
+		// 统计要结算的商品数量
+		checkedCount(state) {
+			// 先使用 filter 方法，从购物车中过滤器已勾选的商品，返回新的数组
+			// 再使用 reduce 方法，将已勾选的商品总数量进行累加
+			// reduce() 的返回值就是已勾选的商品的总数量
+			return state.cart.filter(x => x.goods_state)
+				.reduce((total, item) => total += item.goods_count, 0)
+		},
+		// 统计要结算的商品的总额
+		checkedGoodsAmount(state) {
+			return state.cart.filter(x => x.goods_state)
+				.reduce((amount, item) => amount += item.goods_count * item.goods_price, 0)
+				.toFixed(2)
 		}
 	},
 }
