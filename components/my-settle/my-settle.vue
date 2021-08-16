@@ -79,7 +79,7 @@
 			},
 			showTips(seconds) {
 				uni.showToast({
-					title: `${seconds}秒后跳转到登录页面`,
+					title: `您未登录，系统将在${seconds}秒后跳转到登录页面`,
 					// 为页面添加透明遮罩，防止点击的时候穿透点击到下层页面内容，这样就不会多次执行showTips,产生bug
 					mask: true,
 					// 不添加icon属性，提示信息过长不完全展示，
