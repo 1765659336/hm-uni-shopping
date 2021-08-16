@@ -105,9 +105,11 @@
 			     this.UPDATEUSERINFO({})
 			     this.UPDATETOKEN('')
 			     this.UPDATEADDRESS({})
+					 this.UPDATEPAGE('')
 			  }
 			},
-			...mapMutations('m_user',['UPDATETOKEN','UPDATEUSERINFO','UPDATEADDRESS'])
+			...mapMutations('m_user',['UPDATETOKEN','UPDATEUSERINFO','UPDATEADDRESS']),
+			...mapMutations('m_cart',['UPDATEPAGE'])
 		}
 	}
 </script>
