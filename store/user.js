@@ -6,7 +6,7 @@ export default {
 		// 用户登录之后的信息
 		token: uni.getStorageSync('token') || '',
 		// 用户的基本信息
-		userinfo: JSON.parse(uni.getStorageSync('userinfo') || '{}')
+		userinfo: JSON.parse(uni.getStorageSync('userinfo') || '{}'),
 	},
 	mutations: {
 		UPDATEADDRESS(state, address) {
@@ -40,7 +40,6 @@ export default {
 		// 收货详细地址的计算属性
 		addstr(state) {
 			if (!state.address.provinceName) return ''
-
 			// 拼接 省，市，区，详细地址 的字符串并返回给用户
 			return state.address.provinceName + state.address.cityName + state.address.countyName + state.address
 				.detailInfo

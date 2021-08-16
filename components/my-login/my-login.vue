@@ -11,7 +11,8 @@
 
 <script>
 	import {
-		mapMutations
+		mapMutations,
+		mapState,
 	} from 'vuex'
 	export default {
 		name: "my-login",
@@ -19,6 +20,9 @@
 			return {
 
 			};
+		},
+		computed:{
+			...mapState('m_cart',['page'])
 		},
 		methods: {
 			// 获取微信用户的基本信息
@@ -57,6 +61,12 @@
 				uni.$showMsg('登录成功')
 				// 接口失效了，无法实现支付功能了，给一个假的token值
 				this.UPDATETOKEN('token')
+				// 如果是从购物车页面自动跳转到登录页面来的话，登录成功之后需要回到购物车页面
+				if(this.page === 'cart'){
+					uni.switchTab({
+						url:'/pages/cart/cart'
+					})
+				}
 			}
 		}
 	}

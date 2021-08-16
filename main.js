@@ -26,7 +26,7 @@ $http.beforeRequest = function(options){
 
 // 响应拦截器
 $http.afterRequest = function () {
-	// ？？？？？？这个API是什么作用
+	// 隐藏请求弹出框
   uni.hideLoading()
 }
 

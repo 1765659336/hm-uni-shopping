@@ -2,7 +2,7 @@
 	<view class="my-userinfo-container">
 		<!-- 头像昵称区域 -->
 		<view class="top-box">
-			<image src="userinfo.avatarUrl" class="avatar"></image>
+			<image :src="userinfo.avatarUrl" class="avatar"></image>
 			<view class="nickname">{{userinfo.nickName}}</view>
 		</view>
 		<!-- 面板的列表区域 -->
@@ -66,7 +66,7 @@
 			    <text>联系客服</text>
 			    <uni-icons type="arrowright" size="15"></uni-icons>
 			  </view>
-			  <view class="panel-list-item">
+			  <view class="panel-list-item" @click="logout">
 			    <text>退出登录</text>
 			    <uni-icons type="arrowright" size="15"></uni-icons>
 			  </view>
@@ -77,7 +77,8 @@
 
 <script>
 	import {
-		mapState
+		mapState,
+		mapMutations,
 	} from 'vuex'
 	export default {
 		name: "my-userinfo",
@@ -89,6 +90,24 @@
 		computed: {
 			// 将 m_user 模块中的 userinfo 映射到当前页面中使用
 			...mapState('m_user', ['userinfo']),
+		},
+		methods:{
+			async logout() {
+			  // 询问用户是否退出登录
+			  const [err, succ] = await uni.showModal({
+			    title: '提示',
+			    content: '确认退出登录吗？'
+			  }).catch(err => err)
+			
+			  if (succ && succ.confirm) {
+			     // 用户确认了退出登录的操作
+			     // 需要清空 vuex 中的 userinfo、token 和 address
+			     this.UPDATEUSERINFO({})
+			     this.UPDATETOKEN('')
+			     this.UPDATEADDRESS({})
+			  }
+			},
+			...mapMutations('m_user',['UPDATETOKEN','UPDATEUSERINFO','UPDATEADDRESS'])
 		}
 	}
 </script>

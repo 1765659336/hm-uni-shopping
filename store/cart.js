@@ -8,6 +8,8 @@ export default {
 		// 每个商品的信息对象，都包含如下 6 个属性：
 		// { goods_id, goods_name, goods_price, goods_count, goods_small_logo, goods_state }
 		cart: JSON.parse(uni.getStorageSync('cart') || '[]'),
+		// 这个值放在这不好，但是可以实现功能，当用户登录之后，可以判断这个来决定是否跳转到购物车页面
+		page: '',
 	},
 
 	// 模块的 mutations 方法
@@ -64,6 +66,10 @@ export default {
 			state.cart.forEach(x => x.goods_state = newState)
 			// 持久化存储到本地
 			this.commit('m_cart/SAVETOSTORAGE')
+		},
+		// 当用户未登录点击支付跳转到登录页面
+		UPDATEPAGE(state,newValue){
+			state.page = newValue
 		}
 	},
 	// 模块的 getters 属性
